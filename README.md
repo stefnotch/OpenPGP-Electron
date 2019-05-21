@@ -1,5 +1,14 @@
 # OpenPGP-Electron
 
+A portable OpenPGP file encrypter/decrypter
+
+## Used
+- https://github.com/openpgpjs/openpgpjs
+- 
+
+## Installation Instructions
+```
+
 # Alternatively, you can clone this repo using GitKraken
 # Clone this repository
 git clone https://github.com/stefnotch/youtrack-diagram
@@ -16,3 +25,4 @@ npm run build
 
 # Go to the built application
 cd ./dist/electron
+```
