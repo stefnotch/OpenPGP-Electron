@@ -12,7 +12,11 @@
           </template>
         </q-input>
       </div>
-      <div v-if="initialized" class="flex row">
+      <div
+        v-if="initialized"
+        :style="{'visibility' : password? 'visible' : 'hidden' }"
+        class="flex row"
+      >
         <div>
           <h2>Encrypt -</h2>
           <file-picker type="file" v-on:file-changed="fileChangedEncrypt"></file-picker>
@@ -23,6 +27,7 @@
         </div>
       </div>
       <div v-if="!initialized">Initializing...</div>
+      <span style="width: 100%; text-align: center;">{{message}}</span>
     </div>
   </q-page>
 </template>
@@ -47,7 +52,8 @@ export default {
     return {
       initialized: true,
       password: "",
-      isPwd: true
+      isPwd: true,
+      message: ""
     };
   },
   created() {
@@ -59,6 +65,7 @@ export default {
   methods: {
     /** @param {File} file */
     fileChangedEncrypt(file) {
+      this.message = "Encrypting-->";
       let fileReader = new FileReader();
 
       fileReader.onloadend = evt => {
@@ -72,12 +79,13 @@ export default {
     },
     /** @param {File} file */
     fileChangedDecrypt(file) {
+      this.message = "-->Decrypting";
       let fileReader = new FileReader();
 
       fileReader.onloadend = evt => {
         if (evt.target.readyState == FileReader.DONE) {
           let fileForOpenpgpjs = evt.target.result;
-          this.decryptFile(fileForOpenpgpjs, file.path);
+          this.decryptFile(new Uint8Array(fileForOpenpgpjs), file.path);
         }
       };
 
@@ -88,11 +96,14 @@ export default {
       let options = {
         message: await openpgp.message.fromBinary(fileBuffer), // parse encrypted bytes
         passwords: [this.password], // decrypt with password
+        armor: false,
         format: "binary" // output as Uint8Array
       };
 
       openpgp.encrypt(options).then(ciphertext => {
-        fs.writeFileSync(path + ".gpg", ciphertext.data);
+        let newPath = path + ".gpg";
+        fs.writeFileSync(path + ".gpg", ciphertext.message.packets.write());
+        this.message = "Success " + newPath;
       });
     },
     async decryptFile(fileBuffer, path) {
@@ -102,10 +113,17 @@ export default {
         format: "binary" // output as Uint8Array
       };
 
-      openpgp.decrypt(options).then(plaintext => {
-        console.log(plaintext);
-        fs.writeFile(path.replace(/\.gpg$/), plaintext);
-      });
+      openpgp.decrypt(options).then(
+        plaintext => {
+          let newPath = path.replace(/\.gpg$/, "");
+          fs.writeFileSync(newPath, plaintext.data);
+
+          this.message = "Success " + newPath;
+        },
+        error => {
+          this.message = error + "";
+        }
+      );
     }
   }
 };
