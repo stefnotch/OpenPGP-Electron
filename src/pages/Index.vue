@@ -2,7 +2,13 @@
   <q-page class="flex flex-center">
     <div>
       <div>
-        <q-input v-model="password" filled :type="isPwd ? 'password' : 'text'" hint="Password">
+        <q-input
+          v-model="password"
+          filled
+          :type="isPwd ? 'password' : 'text'"
+          hint="Enter a password to contiinue"
+          label="Password"
+        >
           <template v-slot:append>
             <q-icon
               :name="isPwd ? 'visibility_off' : 'visibility'"
