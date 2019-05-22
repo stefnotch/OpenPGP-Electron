@@ -2,6 +2,11 @@
 
 A portable OpenPGP file encrypter/decrypter
 
+![Screenshot](./Screenshot.png)
+
+## Download
+[Download](https://github.com/stefnotch/OpenPGP-Electron/releases)
+
 ## Used
 - [Quasar](https://quasar-framework.org/)
 - [Vue.js](https://vuejs.org/)
