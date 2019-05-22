@@ -3,8 +3,10 @@
 A portable OpenPGP file encrypter/decrypter
 
 ## Used
-- https://github.com/openpgpjs/openpgpjs
-- 
+- [Quasar](https://quasar-framework.org/)
+- [Vue.js](https://vuejs.org/)
+- [Electron](https://electronjs.org/)
+- [OpenPGP](https://github.com/openpgpjs/openpgpjs)
 
 ## Installation Instructions
 ```
