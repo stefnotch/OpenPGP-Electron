@@ -12,7 +12,7 @@
           <q-icon name="menu" />
         </q-btn>-->
 
-        <q-toolbar-title>Electron - OpenPGP</q-toolbar-title>
+        <q-toolbar-title>OpenPGP - Electron</q-toolbar-title>
 
         <!--<div>Quasar v{{ $q.version }}</div>-->
       </q-toolbar>
