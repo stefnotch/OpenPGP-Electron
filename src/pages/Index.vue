@@ -39,7 +39,12 @@
         </div>
       </div>
       <div v-if="!initialized">Initializing...</div>
-      <span style="width: 100%; text-align: center;">{{message}}</span>
+      <span class="output-message"
+        >{{ message
+        }}<a href="#" class="folder-path" @click="showInFolder(folderPath)">{{
+          folderPath
+        }}</a></span
+      >
     </div>
   </q-page>
 </template>
@@ -79,7 +84,8 @@ export default {
       initialized: true,
       password: "",
       isPwd: true,
-      message: ""
+      message: "",
+      folderPath: ""
     };
   },
   created() {
@@ -88,10 +94,11 @@ export default {
       .initWorker({ path: "statics/openpgp.worker.js" })
       .then(() => (this.initialized = true));*/
   },
+
   methods: {
     /** @param {File} file */
     fileChangedEncrypt(file) {
-      this.message = "Encrypting-->";
+      this.setMessage("Encrypting-->");
       let fileReader = new FileReader();
 
       fileReader.onloadend = evt => {
@@ -105,7 +112,7 @@ export default {
     },
     /** @param {File} file */
     fileChangedDecrypt(file) {
-      this.message = "-->Decrypting";
+      this.setMessage("-->Decrypting");
       let fileReader = new FileReader();
 
       fileReader.onloadend = evt => {
@@ -129,7 +136,7 @@ export default {
       openpgp.encrypt(options).then(ciphertext => {
         let newPath = path + ".gpg";
         fs.writeFileSync(path + ".gpg", ciphertext.message.packets.write());
-        this.message = "Success " + newPath;
+        this.setMessage("Success ", newPath);
       });
     },
     async decryptFile(fileBuffer, path) {
@@ -144,13 +151,29 @@ export default {
           let newPath = path.replace(/\.gpg$/, "");
           fs.writeFileSync(newPath, plaintext.data);
 
-          this.message = "Success " + newPath;
+          this.setMessage("Success ", newPath);
         },
         error => {
-          this.message = error + "";
+          this.setMessage(error + "");
         }
       );
+    },
+    setMessage(message, folderPath = "") {
+      this.message = message;
+      this.folderPath = folderPath;
+    },
+    showInFolder(filePath) {
+      if (filePath) {
+        shell.showItemInFolder(filePath);
+      }
     }
   }
 };
 </script>
+
+<style lang="css" scoped>
+.output-message {
+  width: 100%;
+  text-align: center;
+}
+</style>
