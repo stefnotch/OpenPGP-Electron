@@ -4,19 +4,21 @@
  *  modify this file, but it can be used to extend your development
  *  environment.
  */
+import { app } from "electron";
+import electronDebug from "electron-debug";
+import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 
 // Install `electron-debug` with `devtron`
-require('electron-debug')({ showDevTools: true })
+electronDebug({ showDevTools: true });
 
 // Install `vue-devtools`
-require('electron').app.on('ready', () => {
-  let installExtension = require('electron-devtools-installer')
-  installExtension.default(installExtension.VUEJS_DEVTOOLS)
+app.on("ready", () => {
+  installExtension(VUEJS_DEVTOOLS)
     .then(() => {})
     .catch(err => {
-      console.log('Unable to install `vue-devtools`: \n', err)
-    })
-})
+      console.log("Unable to install `vue-devtools`: \n", err);
+    });
+});
 
 // Require `main` process to boot app
-require('./electron-main')
+import "./electron-main";

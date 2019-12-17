@@ -21,7 +21,7 @@
       name="Datei auswählen"
       :multiple="false"
       @change="fileSelected"
-    >
+    />
     <v-progress-linear :indeterminate="true" v-if="isUploading"></v-progress-linear>
   </div>
 </template>
@@ -51,7 +51,7 @@ input[type="file"] {
 </style>
 <script>
 export default {
-  name: "xibo-file-upload",
+  name: "file-picker",
   data() {
     return {
       isDragOver: false,

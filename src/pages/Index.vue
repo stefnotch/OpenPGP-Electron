@@ -20,16 +20,22 @@
       </div>
       <div
         v-if="initialized"
-        :style="{'visibility' : password? 'visible' : 'hidden' }"
+        :style="{ visibility: password ? 'visible' : 'hidden' }"
         class="flex row"
       >
         <div>
           <h2>Encrypt -</h2>
-          <file-picker type="file" v-on:file-changed="fileChangedEncrypt"></file-picker>
+          <file-picker
+            type="file"
+            v-on:file-changed="fileChangedEncrypt"
+          ></file-picker>
         </div>
         <div>
           <h2>-> Decrypt</h2>
-          <file-picker type="file" v-on:file-changed="fileChangedDecrypt"></file-picker>
+          <file-picker
+            type="file"
+            v-on:file-changed="fileChangedDecrypt"
+          ></file-picker>
         </div>
       </div>
       <div v-if="!initialized">Initializing...</div>
@@ -38,15 +44,29 @@
   </q-page>
 </template>
 
-<style>
-</style>
-
 <script>
 import FilePicker from "./../components/FilePicker.vue";
-//import openpgp from "openpgp";
-import * as openpgp from "openpgp";
-import fs from "fs";
 import { QInput } from "quasar";
+import * as fs from "fs";
+import { shell } from "electron";
+//import * as openpgp from "openpgp";
+let openpgp = {};
+
+function getOpenPgp() {
+  let nodeRequire = window.require;
+  let nodeExports = window.exports;
+  let nodeModule = window.module;
+  delete window.require;
+  delete window.exports;
+  delete window.module;
+
+  openpgp = nodeRequire("openpgp");
+
+  window.require = nodeRequire;
+  window.exports = nodeExports;
+  window.module = nodeModule;
+}
+getOpenPgp();
 
 export default {
   name: "PageIndex",
