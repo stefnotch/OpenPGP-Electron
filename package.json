@@ -1,6 +1,6 @@
 {
   "name": "openpgp-electron",
-  "version": "0.0.2",
+  "version": "1.0.2",
   "description": "A Quasar Framework app",
   "productName": "OpenPGP-Electron",
   "cordovaId": "",
