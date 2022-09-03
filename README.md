@@ -2,7 +2,14 @@
 
 A portable OpenPGP file encrypter/decrypter
 
-![Screenshot](./Screenshot.png)
+![Screenshot](./Screenshot.png) 
+
+## Status
+
+**Unmaintained**
+
+Also, while PGP is very secure, the standard is needlessly complex. As such, I cannot recommend it.
+See https://en.wikipedia.org/wiki/Pretty_Good_Privacy#Security_quality
 
 ## Download
 [Download](https://github.com/stefnotch/OpenPGP-Electron/releases)
